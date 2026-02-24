@@ -1,8 +1,8 @@
 import { Users, Wifi, Tv, Wind, Bath, UtensilsCrossed } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import roomImage from '@/assets/room-standard.jpg';
-import activitiesImage from '@/assets/activities.jpg';
-import wellnessImage from '@/assets/wellness.jpg';
+import roomImage from '@/assets/room-standard.webp';
+import activitiesImage from '@/assets/activities.webp';
+import wellnessImage from '@/assets/wellness.webp';
 
 const rooms = [
   {
@@ -52,7 +52,7 @@ const RoomsSection = () => {
             Номера на любой вкус
           </h2>
           <p className="text-lg text-muted-foreground mt-4">
-            Выберите подходящий вариант размещения из наших комфортабельных 
+            Выберите подходящий вариант размещения из наших комфортабельных
             2-х, 3-х и 5-этажных корпусов. Вместимость — до 600 гостей.
           </p>
         </div>
@@ -69,10 +69,11 @@ const RoomsSection = () => {
                 <img
                   src={room.image}
                   alt={room.name}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                
+
                 {/* Price Badge */}
                 <div className="absolute bottom-4 left-4 px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full">
                   <span className="text-lg font-bold text-ocean-deep">{room.price}</span>

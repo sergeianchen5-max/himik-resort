@@ -1,5 +1,5 @@
 import { Waves, Heart, Users, Sun } from 'lucide-react';
-import generalViewImage from '@/assets/general-view.jpg';
+import generalViewImage from '@/assets/general-view.webp';
 
 const features = [
   {
@@ -74,6 +74,7 @@ const AboutSection = () => {
               <img
                 src={generalViewImage}
                 alt="Пляж пансионата Химик"
+                loading="lazy"
                 className="w-full h-[500px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep/40 to-transparent" />

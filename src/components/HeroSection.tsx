@@ -2,9 +2,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, CalendarDays, Users } from 'lucide-react';
 import { useState } from 'react';
 import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
-
-import heroImage from '@/assets/hero-beach.jpg';
+import { ru } from 'date-fns/locale'; import heroImage from '@/assets/hero-beach.webp';
 
 const HeroSection = () => {
   const [checkIn, setCheckIn] = useState<Date>();
