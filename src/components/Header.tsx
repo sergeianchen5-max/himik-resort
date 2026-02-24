@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import logoImage from '@/assets/logo.png';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,7 +17,8 @@ const Header = () => {
 
   const navLinks = [
     { href: '#about', label: 'О пансионате' },
-    { href: '#rooms', label: 'Номера' },
+    { href: '#tl-anchor', label: 'Бронирование' },
+    { href: '#reviews', label: 'Отзывы' },
     { href: '#services', label: 'Услуги' },
     { href: '#promotions', label: 'Акции' },
     { href: '#contacts', label: 'Контакты' },
@@ -24,22 +26,19 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-soft'
-          : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-white/95 backdrop-blur-md shadow-soft'
+        : 'bg-transparent'
+        }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3">
-            <div className={`text-2xl font-serif font-bold transition-colors ${isScrolled ? 'text-ocean-deep' : 'text-white'}`}>
+            <img src={logoImage} alt="Логотип пансионата Химик" className="h-12 w-auto object-contain" />
+            <div className={`text-2xl font-serif font-bold transition-colors hidden sm:block ${isScrolled ? 'text-ocean-deep' : 'text-white'}`}>
               Химик
             </div>
-            <span className={`hidden sm:inline text-sm font-medium transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-white/80'}`}>
-              Пансионат
-            </span>
           </a>
 
           {/* Desktop Navigation */}
@@ -48,9 +47,8 @@ const Header = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isScrolled ? 'text-foreground' : 'text-white'
-                }`}
+                className={`text-sm font-medium transition-colors hover:text-primary ${isScrolled ? 'text-foreground' : 'text-white'
+                  }`}
               >
                 {link.label}
               </a>
@@ -61,14 +59,13 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-4">
             <a
               href="tel:+79890906272"
-              className={`flex items-center gap-2 text-sm font-medium transition-colors ${
-                isScrolled ? 'text-foreground' : 'text-white'
-              }`}
+              className={`flex items-center gap-2 text-sm font-medium transition-colors ${isScrolled ? 'text-foreground' : 'text-white'
+                }`}
             >
               <Phone className="w-4 h-4" />
               +7 (989) 090-62-72
             </a>
-            <Button variant={isScrolled ? 'default' : 'heroOutline'} size="default">
+            <Button variant={isScrolled ? 'default' : 'heroOutline'} size="default" onClick={() => document.getElementById('tl-anchor')?.scrollIntoView({ behavior: 'smooth' })}>
               Забронировать
             </Button>
           </div>
@@ -76,9 +73,8 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`lg:hidden p-2 transition-colors ${
-              isScrolled ? 'text-foreground' : 'text-white'
-            }`}
+            className={`lg:hidden p-2 transition-colors ${isScrolled ? 'text-foreground' : 'text-white'
+              }`}
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -108,7 +104,7 @@ const Header = () => {
                 <Mail className="w-4 h-4 text-primary" />
                 himik-azot@yandex.ru
               </a>
-              <Button variant="default" size="lg" className="mt-2">
+              <Button variant="default" size="lg" className="mt-2" onClick={() => document.getElementById('tl-anchor')?.scrollIntoView({ behavior: 'smooth' })}>
                 Забронировать
               </Button>
             </div>

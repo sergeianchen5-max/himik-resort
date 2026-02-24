@@ -3,25 +3,11 @@ import { Button } from '@/components/ui/button';
 
 const promotions = [
   {
-    icon: Percent,
-    title: 'Акция 3 = 4',
-    description: 'Бронируйте 3 ночи и получите 4-ю ночь в подарок! Акция действует на проживание в любом номере.',
-    badge: 'Популярное',
-    badgeColor: 'bg-gradient-sunset',
-  },
-  {
     icon: Users,
     title: 'Групповые заезды',
     description: 'Специальные цены для туристических, студенческих и школьных групп. Выгодные условия от 10 человек.',
     badge: 'Для групп',
     badgeColor: 'bg-gradient-ocean',
-  },
-  {
-    icon: Gift,
-    title: 'Раннее бронирование',
-    description: 'Забронируйте отдых заранее и получите скидку до 15% на проживание в любой категории номеров.',
-    badge: 'Выгодно',
-    badgeColor: 'bg-ocean-deep',
   },
 ];
 
@@ -43,7 +29,7 @@ const PromotionsSection = () => {
         </div>
 
         {/* Promotions Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="max-w-4xl mx-auto">
           {promotions.map((promo, index) => (
             <div
               key={index}
@@ -70,8 +56,8 @@ const PromotionsSection = () => {
                   {promo.description}
                 </p>
 
-                <Button variant="outline" className="w-full">
-                  Подробнее
+                <Button asChild size="lg" className="w-full mt-4">
+                  <a href="tel:+79890906272">Позвонить: +7 (989) 090-62-72</a>
                 </Button>
               </div>
             </div>
@@ -93,14 +79,15 @@ const PromotionsSection = () => {
                 Забронируйте номер прямо сейчас и получите лучшие условия
               </p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="heroOutline" size="lg">
                 +7 (989) 090-62-72
               </Button>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-white text-ocean-deep hover:bg-white/90"
+                onClick={() => document.getElementById('tl-anchor')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Забронировать
               </Button>

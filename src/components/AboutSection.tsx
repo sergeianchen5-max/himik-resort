@@ -1,5 +1,5 @@
 import { Waves, Heart, Users, Sun } from 'lucide-react';
-import beachImage from '@/assets/beach-aerial.jpg';
+import generalViewImage from '@/assets/general-view.jpg';
 
 const features = [
   {
@@ -36,21 +36,21 @@ const AboutSection = () => {
                 О пансионате
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mt-3 leading-tight">
-                Отдых у моря в живописном 
+                Отдых у моря в живописном
                 <span className="text-gradient-ocean"> Туапсинском районе</span>
               </h2>
             </div>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Пансионат «Химик» расположен в живописном уголке Туапсинского района 
-              Краснодарского края, между посёлками Лермонтово и Новомихайловский, 
-              в окружении кавказских лесов. Здесь вас ждёт комфортное размещение 
+              Пансионат «Химик» расположен в живописном уголке Туапсинского района
+              Краснодарского края, между посёлками Лермонтово и Новомихайловский,
+              в окружении кавказских лесов. Здесь вас ждёт комфортное размещение
               в 2-х, 3-х и 5-этажных корпусах.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6">
               {features.map((feature, index) => (
-                <div 
+                <div
                   key={index}
                   className="group p-5 rounded-2xl bg-card border border-border hover:shadow-card hover:border-primary/20 transition-all duration-300"
                 >
@@ -72,7 +72,7 @@ const AboutSection = () => {
           <div className="relative">
             <div className="relative rounded-3xl overflow-hidden shadow-elevated">
               <img
-                src={beachImage}
+                src={generalViewImage}
                 alt="Пляж пансионата Химик"
                 className="w-full h-[500px] object-cover"
               />

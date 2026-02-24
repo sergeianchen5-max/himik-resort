@@ -1,7 +1,72 @@
+import { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 const ContactsSection = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [agreement, setAgreement] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!agreement) {
+      toast({
+        title: "Ошибка",
+        description: "Необходимо согласие на обработку персональных данных",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get('Имя'),
+      phone: formData.get('Телефон'),
+      email: formData.get('Email'),
+      message: formData.get('Сообщение'),
+    };
+
+    const text = `Новая заявка с сайта:\n\nИмя: ${data.name}\nТелефон: ${data.phone}\nEmail: ${data.email || 'не указан'}\n\nСообщение:\n${data.message}`;
+
+    // Токен и Chat ID Telegram бота
+    const TELEGRAM_BOT_TOKEN = '8744788868:AAGvekOjk8X-SNkSLQwUBi_yZiseLXxdIks';
+    const TELEGRAM_CHAT_ID = '-5042695746';
+
+    try {
+      const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: text,
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Заявка отправлена!",
+          description: "Мы свяжемся с вами в ближайшее время.",
+        });
+        (e.target as HTMLFormElement).reset();
+        setAgreement(false);
+      } else {
+        throw new Error('Ошибка отправки');
+      }
+    } catch (error) {
+      toast({
+        title: "Ошибка",
+        description: "Произошла ошибка при отправке. Пожалуйста, попробуйте позже.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contacts" className="py-20 md:py-32 bg-foreground text-primary-foreground">
       <div className="container mx-auto px-4">
@@ -31,20 +96,33 @@ const ContactsSection = () => {
                 </div>
               </a>
 
-              <a
-                href="mailto:himik-azot@yandex.ru"
-                className="flex items-start gap-4 group"
-              >
-                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
-                  <Mail className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <div className="text-sm text-primary-foreground/60 mb-1">Email</div>
-                  <div className="text-xl font-semibold group-hover:text-primary transition-colors">
-                    himik-azot@yandex.ru
+              <div className="flex flex-col gap-3">
+                <a
+                  href="mailto:anchen-ser@yandex.ru"
+                  className="flex items-start gap-4 group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
+                    <Mail className="w-5 h-5 text-primary" />
                   </div>
-                </div>
-              </a>
+                  <div>
+                    <div className="text-sm text-primary-foreground/60 mb-1">Основной Email</div>
+                    <div className="text-xl font-semibold group-hover:text-primary transition-colors">
+                      anchen-ser@yandex.ru
+                    </div>
+                  </div>
+                </a>
+                <a
+                  href="mailto:himik-azot@yandex.ru"
+                  className="flex items-start gap-4 group pl-16 pt-2"
+                >
+                  <div>
+                    <div className="text-sm text-primary-foreground/60 mb-1">Дополнительный Email</div>
+                    <div className="text-lg font-semibold group-hover:text-primary transition-colors">
+                      himik-azot@yandex.ru
+                    </div>
+                  </div>
+                </a>
+              </div>
 
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
@@ -76,9 +154,9 @@ const ContactsSection = () => {
             <div className="mt-10 p-6 rounded-2xl bg-primary-foreground/5 border border-primary-foreground/10">
               <h3 className="text-lg font-semibold mb-3">Как добраться</h3>
               <p className="text-primary-foreground/70 leading-relaxed">
-                Проезд к пансионату возможен рейсовым автобусом от авто или ж/д вокзалов 
-                из г. Туапсе или г. Краснодара, маршрутным такси до пункта назначения. 
-                Для организованных групп или по отдельной заявке может быть организован 
+                Проезд к пансионату возможен рейсовым автобусом от авто или ж/д вокзалов
+                из г. Туапсе или г. Краснодара, маршрутным такси до пункта назначения.
+                Для организованных групп или по отдельной заявке может быть организован
                 трансфер из любого пункта.
               </p>
             </div>
@@ -90,11 +168,16 @@ const ContactsSection = () => {
               Оставить заявку
             </h3>
 
-            <form className="space-y-5">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-5"
+            >
               <div>
                 <label className="block text-sm font-medium mb-2">Ваше имя</label>
                 <input
                   type="text"
+                  name="Имя"
+                  required
                   placeholder="Иван Иванов"
                   className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
                 />
@@ -104,15 +187,18 @@ const ContactsSection = () => {
                 <label className="block text-sm font-medium mb-2">Телефон</label>
                 <input
                   type="tel"
+                  name="Телефон"
+                  required
                   placeholder="+7 (___) ___-__-__"
                   className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">Email</label>
+                <label className="block text-sm font-medium mb-2">Email (необязательно)</label>
                 <input
                   type="email"
+                  name="Email"
                   placeholder="example@mail.ru"
                   className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
                 />
@@ -122,19 +208,39 @@ const ContactsSection = () => {
                 <label className="block text-sm font-medium mb-2">Сообщение</label>
                 <textarea
                   rows={4}
+                  name="Сообщение"
                   placeholder="Ваше сообщение или вопрос..."
                   className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow resize-none"
                 />
               </div>
 
-              <Button variant="hero" size="lg" className="w-full">
-                <Send className="w-4 h-4" />
-                Отправить заявку
-              </Button>
+              <div className="flex items-start gap-3 mt-4">
+                <input
+                  type="checkbox"
+                  id="agreement"
+                  checked={agreement}
+                  onChange={(e) => setAgreement(e.target.checked)}
+                  required
+                  className="mt-1 w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary/50"
+                />
+                <label htmlFor="agreement" className="text-sm text-muted-foreground leading-snug">
+                  Я согласен с условиями{' '}
+                  <a href="https://pansionat-himik.ru/sw/poli.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">пользовательского соглашения</a> и{' '}
+                  <a href="https://pansionat-himik.ru/sw/offer.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">договора оферты</a>,
+                  и даю согласие на обработку персональных данных.
+                </label>
+              </div>
 
-              <p className="text-xs text-muted-foreground text-center">
-                Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных
-              </p>
+              <Button type="submit" variant="hero" size="lg" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">Отправка...</span>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Отправить заявку
+                  </>
+                )}
+              </Button>
             </form>
           </div>
         </div>
