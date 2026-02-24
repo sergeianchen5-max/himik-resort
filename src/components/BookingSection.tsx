@@ -6,7 +6,11 @@ const BookingSection = () => {
         const q = [
             ['setContext', 'TL-INT-pansionat-himik', 'ru'],
             ['embed', 'booking-form', {
-                container: 'tl-booking-form'
+                container: 'tl-booking-form',
+                // Отключаем автоматический скролл к форме при загрузке
+                scrollIntoView: false,
+                // Пытаемся отключить встроенные всплывающие окна (motivation popup)
+                showMotivationPopup: false
             }]
         ];
 
